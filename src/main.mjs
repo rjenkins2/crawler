@@ -1,29 +1,15 @@
 #!/usr/bin/env node
-import { PlaywrightCrawler, log } from "crawlee";
-import { firefox } from "playwright";
-import { webkit } from "playwright";
-import { chromium } from "playwright";
-import { router } from "./auto_router.mjs";
+import { PlaywrightCrawler, ProxyConfiguration, log } from "crawlee";
+import { Actor } from "apify";
+import playwright from "playwright";
+import { router } from "./router.mjs";
 import cli from "./parse_args.mjs";
 //import siteMap from './siteMap.js';
-
-function get_launcher(browser) {
-  switch (browser) {
-    case "chromium":
-      return chromium;
-    case "firefox":
-      return firefox;
-    case "webkit":
-      return webkit;
-    default:
-      return chromium;
-  }
-}
 
 async function main(argv) {
   const otherOptions = {
     headless: argv.headless,
-    launcher: get_launcher(argv.browser),
+    args: ['--disable-web-security'],
   };
   const proxyOptions = argv.proxy
     ? {
@@ -36,17 +22,55 @@ async function main(argv) {
     : {};
   const launchOptions = Object.assign(otherOptions, proxyOptions);
 
+  var proxyConfiguration;
+  var apifyProxy = false;
+
+  if (argv.proxy_urls.length == 1 && argv.proxy_urls[0] === 'apify') {
+    log.info('Using Apify proxy');
+    apifyProxy = true;
+
+    await Actor.init();
+
+    proxyConfiguration = await Actor.createProxyConfiguration({
+      groups: ['RESIDENTIAL'],
+      countryCode: 'US',
+    });
+  } else if (argv.proxy_urls.length == 1 && argv.proxy_urls[0] === 'skip') {
+    log.info('Skipping proxy');
+    proxyConfiguration = undefined
+  } else {
+    log.info('Using custom proxy');
+    proxyConfiguration = new ProxyConfiguration({
+      proxyUrls: argv.proxy_urls,
+    });
+  }
+
   log.debug('Starting crawler')
+
+  const launcher = playwright[argv.browser === 'chrome' ? 'chromium' : argv.browser];
 
   const crawler = new PlaywrightCrawler({
     maxRequestsPerCrawl: 100,
     proxyConfiguration,
-    launchContext: launchOptions,
+    sessionPoolOptions: {
+      sessionOptions: {
+        maxUsageCount: 20,
+      },
+    },
+    launchContext: {
+      launcher: launcher,
+      useChrome: argv.browser === 'chrome',
+      launchOptions: launchOptions,
+    },
     requestHandler: router,
   });
 
   await crawler.addRequests([argv.website]);
   await crawler.run();
+
+  if (apifyProxy) {
+    await Actor.exit();
+  }
 }
 
 // Get command line options
