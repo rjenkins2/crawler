@@ -1,0 +1,23 @@
+{
+  "name": "crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crawlee": "^3.10.2",
+    "playwright": "^1.44.1",
+    "sequelize": "^6.37.3",
+    "sqlite3": "^5.1.7",
+    "yargs": "^17.7.2"
+  },
+  "type": "module",
+  "devDependencies": {
+    "prettier": "3.3.1"
+  }
+}
