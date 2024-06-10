@@ -1,0 +1,6 @@
+{
+  "site": "radwell",
+  "startUrl": "https://www.radwell.com/AllCategories/Index",
+  "crawl": true,
+  "default": true
+}
