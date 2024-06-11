@@ -24,12 +24,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vscode/sqlite3": "^5.1.6-vscode",
     "apify": "^3.2.3",
     "crawlee": "^3.10.2",
     "playwright": "^1.44.1",
     "punycode": "^2.3.1",
-    "sequelize": "^6.37.3",
     "yargs": "^17.7.2"
   },
   "type": "module",
