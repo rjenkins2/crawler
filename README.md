@@ -2,15 +2,19 @@
 
 ### Setup:
 
-- Make sure Node is installed. Tested with v20.12.1
-- Make sure npm is installed. Tested with 10.5.0
+- Make sure Node is installed. Tested with v20.12.1, v22.2.0
+- Make sure npm is installed. Tested with 10.5.0, 10.8.1
 
 ```
 # Install dependencies.
 npm install
 
-# Install playwright browsers, if needed.
+# Install default playwright browsers (chromium, firefox, webkit)
 npx playwright install
+
+# Perhaps install msedge or chrome if needed. (installed at root, could overwrite main browser)
+npx playwright install chrome
+npx playwright install msedge
 
 # Get a list of command line options:
 node ./src/main.mjs --help

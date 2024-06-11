@@ -2,15 +2,20 @@
 import { PlaywrightCrawler, ProxyConfiguration, log } from "crawlee";
 import { Actor } from "apify";
 import playwright from "playwright";
-import { router } from "./router.mjs";
+import dynamicRouter from "./dynamic_router.mjs";
 import cli from "./parse_args.mjs";
 
 async function main(argv) {
+  const channel = ["chrome", "msedge"].includes(argv.browser)
+    ? argv.browser
+    : undefined;
   const launchOptions = {
     headless: argv.headless,
+    channel: channel,
     args: ["--disable-web-security"],
   };
 
+  // Setup proxy
   var proxyConfiguration;
   var apifyProxy = false;
 
@@ -38,6 +43,8 @@ async function main(argv) {
 
   const launcher =
     playwright[argv.browser === "chrome" ? "chromium" : argv.browser];
+
+  const router = dynamicRouter.createHandlersFromConfig(argv.siteConfig);
 
   const crawler = new PlaywrightCrawler({
     maxRequestsPerCrawl: 100,

@@ -1,6 +1,121 @@
 {
+  "default": true,
   "site": "radwell",
   "startUrl": "https://www.radwell.com/AllCategories/Index",
-  "crawl": true,
-  "default": true
+  "captcha": ["puzzle_slider"],
+  "handlers": {
+    "default": [
+      {
+        "action": "enqueue",
+        "selector": ".category-name > a",
+        "actionLabel": "SEARCH"
+      }
+    ],
+    "SEARCH": [
+      {
+        "action": "enqueue",
+        "selector": ".category-name > a",
+        "actionLabel": "CATEGORY"
+      }
+    ],
+    "CATEGORY": [
+      {
+        "action": "enqueue",
+        "selector": "a.searchNext:not([aria-disabled=true])",
+        "actionLabel": "CATEGORY",
+        "enqueueLimit": 1
+      },
+      {
+        "action": "enqueue",
+        "selector": ".btnBuyOpt > a",
+        "actionLabel": "DETAIL"
+      }
+    ],
+    "DETAIL": [
+      {
+        "action": "extract",
+        "selector": "h2.mfgr > span",
+        "actionLabel": "manufacturer",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RISCN1\"]) div.sku-id",
+        "actionLabel": "prices/new/skuId",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RISCN1\"]) span.ActualPrice",
+        "actionLabel": "prices/new/price",
+        "type": "float"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQANS1\"]) div.sku-id",
+        "actionLabel": "prices/neverUsed1/skuId",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQANS1\"]) span.ActualPrice",
+        "actionLabel": "prices/neverUsed1/price",
+        "type": "float"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQANS2\"]) div.sku-id",
+        "actionLabel": "prices/neverUsed2/skuId",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQANS2\"]) span.ActualPrice",
+        "actionLabel": "prices/neverUsed2/price",
+        "type": "float"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQAUS1\"]) div.sku-id",
+        "actionLabel": "prices/used/skuId",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQAUS1\"]) span.ActualPrice",
+        "actionLabel": "prices/used/price",
+        "type": "float"
+      },
+      {
+        "action": "extract",
+        "selector": "div.repPrice",
+        "actionLabel": "prices/repair/price",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": ".Specifications table tr:nth-child(1) :is(th, td):nth-child(2)",
+        "actionLabel": "partNumber",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": ".Specifications table tr:nth-child(2) :is(th, td):nth-child(2)",
+        "actionLabel": "category",
+        "type": "string"
+      },
+      {
+        "action": "extract",
+        "selector": ".Specifications table tr:nth-child(3) :is(th, td):nth-child(2)",
+        "actionLabel": "subCategory",
+        "type": "string"
+      },
+      {
+        "action": "extractOnly",
+        "selector": "div#PD.minitabSection ul",
+        "actionLabel": "description",
+        "type": "string"
+      }
+    ]
+  }
 }

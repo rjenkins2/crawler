@@ -45,7 +45,7 @@ function parseArgs(args) {
       alias: "b",
       describe: "Browser type",
       type: "string",
-      choices: ["chrome", "chromium", "firebox", "webkit"],
+      choices: ["chrome", "chromium", "firebox", "webkit", "msedge"],
       default: "chrome",
     })
     .option("website", {
@@ -59,8 +59,12 @@ function parseArgs(args) {
         var site = websites[arg];
         if (site && arg != "other") {
           return arg;
+        } else if (arg == "other") {
+          throw new Error(
+            "Instead of 'other', please provide a full URL where to start scraping.",
+          );
         } else if (arg.startsWith("http://") || arg.startsWith("https://")) {
-          // If the provided value is a valid URL, return it as is
+          // If the provided value is a valid URL, use it as the start URL for the "other" website
           websites["other"].startUrl = arg;
           return "other";
         } else {
