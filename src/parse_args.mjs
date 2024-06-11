@@ -8,9 +8,7 @@ function parseArgs(args) {
   const configDir = "./configs"; // Directory containing the config files
 
   // Read the config files and extract the site names and configs
-  const configFiles = fs
-    .readdirSync(configDir)
-    .filter((file) => file.endsWith(".json"));
+  const configFiles = fs.readdirSync(configDir).filter((file) => file.endsWith(".json"));
   const websites = {};
   var websiteDefault = "";
   configFiles.forEach((file) => {
@@ -48,10 +46,15 @@ function parseArgs(args) {
       choices: ["chrome", "chromium", "firebox", "webkit", "msedge"],
       default: "chrome",
     })
+    .option("timeout", {
+      alias: "t",
+      describe: "Crawl timeout in milliseconds",
+      type: "number",
+      default: 30000,
+    })
     .option("website", {
       alias: "w",
-      describe:
-        "Website to scrape products from, or full URL if not already mapped.",
+      describe: "Website to scrape products from, or full URL if not already mapped.",
       type: "string",
       choices: Object.keys(websites),
       default: websiteDefault,
@@ -60,9 +63,7 @@ function parseArgs(args) {
         if (site && arg != "other") {
           return arg;
         } else if (arg == "other") {
-          throw new Error(
-            "Instead of 'other', please provide a full URL where to start scraping.",
-          );
+          throw new Error("Instead of 'other', please provide a full URL where to start scraping.");
         } else if (arg.startsWith("http://") || arg.startsWith("https://")) {
           // If the provided value is a valid URL, use it as the start URL for the "other" website
           websites["other"].startUrl = arg;

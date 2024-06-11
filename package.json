@@ -1,11 +1,24 @@
 {
   "name": "crawler",
+  "jest": {
+    "transform": {},
+    "testMatch": [
+      "**/__tests__/**/*.?([mc])[jt]s?(x)",
+      "**/?(*.)+(spec|test).?([mc])[jt]s?(x)"
+    ]
+  },
+  "prettier": {
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false
+  },
   "version": "0.1.0",
   "description": "Crawls sites, looking for products with prices",
   "main": "src/main.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node ./postinstall.js"
+    "test": "NODE_OPTIONS='--experimental-vm-modules --no-warnings=ExperimentalWarning' jest",
+    "postinstall": "node ./postinstall.js",
+    "start": "bash scrape.sh"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +34,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "jest": "^29.7.0",
     "prettier": "3.3.1"
   }
 }

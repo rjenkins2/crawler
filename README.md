@@ -69,6 +69,9 @@ Here is the list of vendors that you can choose from:
 
 #### Implementation Notes
 
-- Asking to complete in 30 seconds while making sure we scrape Ethically is a bit of a conflict. I've assumed that the 30 seconds was a hard limit, and to scrape as much as possible during those 30 seconds while also not overloading their servers with too many concurrent requests. After the 30 seconds, we stop and keep track of where we were in the process to resume later.
-- I currently store the state in a simple sqlite database, but this could be converted to something more robust like Postgres pretty easily.
-- Even though just 1 site was requested, I tried to make the configuration flexible enough so that other sites could be added later.
+- Asking to complete in 30 seconds while making sure we scrape Ethically is a bit of a conflict. I've assumed that the 30 seconds was a hard limit, and to scrape as much as possible during those 30 seconds while also not overloading their servers with too many concurrent requests.
+  - The goal is that after the 30 seconds, we save the state of the crawler and resume. I wasn't able to quite finish that, so that would be a future improvement. Crawlee saves the state automatically in storage/, so this shouldn't be too hard to implement.
+- Even though just 1 site was requested, I tried to make the configuration flexible enough so that other sites could be added later. The goal was to make the crawler pretty generic and supply information in the config file for the website. See the configs directory, specifically the configs/radwell.json file for an example.
+  - Currently enqueue, extract, exactOnly are the actions that can be taken on a particular page, with CSS selectors to determine what we care about. This could pretty easily be expanded to other actions, as needed.
+  - Future plans include a way to try to auto-generate a configuration file for a website, perhaps. But it isn't too hard to generate one manually.
+- Rudimentary tests have been implemented, but some mocking style tests of the dynamic router functionality would also probably be nice.

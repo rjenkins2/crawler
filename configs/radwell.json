@@ -39,6 +39,12 @@
         "type": "string"
       },
       {
+        "action": "extractOnly",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RISCN1\"]) div.stock",
+        "actionLabel": "prices/new/stock",
+        "type": "number"
+      },
+      {
         "action": "extract",
         "selector": "div.buyOpt:has(h3[data-condition=\"RISCN1\"]) div.sku-id",
         "actionLabel": "prices/new/skuId",
@@ -49,6 +55,12 @@
         "selector": "div.buyOpt:has(h3[data-condition=\"RISCN1\"]) span.ActualPrice",
         "actionLabel": "prices/new/price",
         "type": "float"
+      },
+      {
+        "action": "extractOnly",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQANS1\"]) div.stock",
+        "actionLabel": "prices/neverUsed1/stock",
+        "type": "number"
       },
       {
         "action": "extract",
@@ -63,6 +75,12 @@
         "type": "float"
       },
       {
+        "action": "extractOnly",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQANS2\"]) div.stock",
+        "actionLabel": "prices/neverUsed2/stock",
+        "type": "number"
+      },
+      {
         "action": "extract",
         "selector": "div.buyOpt:has(h3[data-condition=\"RQANS2\"]) div.sku-id",
         "actionLabel": "prices/neverUsed2/skuId",
@@ -73,6 +91,12 @@
         "selector": "div.buyOpt:has(h3[data-condition=\"RQANS2\"]) span.ActualPrice",
         "actionLabel": "prices/neverUsed2/price",
         "type": "float"
+      },
+      {
+        "action": "extractOnly",
+        "selector": "div.buyOpt:has(h3[data-condition=\"RQAUS1\"]) div.stock",
+        "actionLabel": "prices/used/stock",
+        "type": "number"
       },
       {
         "action": "extract",
